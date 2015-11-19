@@ -40,9 +40,25 @@ data = [(x_vals[i],y_vals[i]) for i in xrange(len(x_vals))]
 estimator = KMeans(n_clusters=2)
 estimator.fit(data)
 
-print(estimator.labels_)
+# Verify center clusters are around 25 and 10.
 print(estimator.cluster_centers_)
 
-plt.scatter(x_vals_c1, y_vals_c1, color='r')
-plt.scatter(x_vals_c2, y_vals_c2, color='b')
+# Plot actual, generated values.
+#plt.scatter(x_vals_c1, y_vals_c1, color='r')
+#plt.scatter(x_vals_c2, y_vals_c2, color='b')
+
+cluster_1 = []
+cluster_2 = []
+
+# Split the labeled points into cluster 1, cluster 2.
+for i, v in enumerate(estimator.labels_):
+    if v:
+        cluster_1.append(data[i])
+    else:
+        cluster_2.append(data[i])
+
+# Plot the two clusters in different colors. Christmas-themed.
+plt.scatter(*zip(*cluster_1), color='g')
+plt.scatter(*zip(*cluster_2), color='r')
+
 plt.show()
