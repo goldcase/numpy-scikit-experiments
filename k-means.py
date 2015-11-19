@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
+from random import shuffle
 
 # K Means attempts to cluster data by splitting data into groups of equal variance.
 # Requires number of clusters to be specified.
@@ -18,13 +19,29 @@ from sklearn.cluster import KMeans
 
 # In other words, k-means is EM w/small, all-equal diagonal covar matrix.
 
+NOISE_FACTOR = 10
+
 def get_noise():
     return (np.random.random()-0.5)*20
 
-x_vals_c1 = [25 + get_noise() for i in xrange(50)]
-y_vals_c1 = [25 + get_noise() for i in xrange(50)]
-x_vals_c2 = [10 + get_noise() for i in xrange(50)]
-y_vals_c2 = [10 + get_noise() for i in xrange(50)]
+x_vals_c1 = np.random.uniform(-1*NOISE_FACTOR,1*NOISE_FACTOR, 25) + 25
+y_vals_c1 = np.random.uniform(-1*NOISE_FACTOR,1*NOISE_FACTOR, 25) + 25
+x_vals_c2 = np.random.uniform(-1*NOISE_FACTOR,1*NOISE_FACTOR, 25) + 10
+y_vals_c2 = np.random.uniform(-1*NOISE_FACTOR,1*NOISE_FACTOR, 25) + 10
+
+x_vals = x_vals_c1.tolist() + x_vals_c2.tolist()
+y_vals = y_vals_c1.tolist() + y_vals_c2.tolist()
+
+shuffle(x_vals)
+shuffle(y_vals)
+
+data = [(x_vals[i],y_vals[i]) for i in xrange(len(x_vals))]
+
+estimator = KMeans(n_clusters=2)
+estimator.fit(data)
+
+print(estimator.labels_)
+print(estimator.cluster_centers_)
 
 plt.scatter(x_vals_c1, y_vals_c1, color='r')
 plt.scatter(x_vals_c2, y_vals_c2, color='b')
