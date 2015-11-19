@@ -19,7 +19,7 @@ from random import shuffle
 
 # In other words, k-means is EM w/small, all-equal diagonal covar matrix.
 
-NOISE_FACTOR = 10
+NOISE_FACTOR = 15
 
 def get_noise():
     return (np.random.random()-0.5)*20
@@ -44,8 +44,10 @@ estimator.fit(data)
 print(estimator.cluster_centers_)
 
 # Plot actual, generated values.
-#plt.scatter(x_vals_c1, y_vals_c1, color='r')
-#plt.scatter(x_vals_c2, y_vals_c2, color='b')
+plt.figure(0)
+plt.scatter(x_vals_c1, y_vals_c1, color='r')
+plt.scatter(x_vals_c2, y_vals_c2, color='b')
+plt.show()
 
 cluster_1 = []
 cluster_2 = []
@@ -58,7 +60,7 @@ for i, v in enumerate(estimator.labels_):
         cluster_2.append(data[i])
 
 # Plot the two clusters in different colors. Christmas-themed.
+plt.figure(1)
 plt.scatter(*zip(*cluster_1), color='g')
 plt.scatter(*zip(*cluster_2), color='r')
-
 plt.show()
